@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.android.stockapp.R;
-import com.android.stockapp.common.data.ChartData;
+import com.android.stockapp.common.utils.HttpRequestUtils;
 import com.android.stockapp.ui.base.BaseFragment;
 import com.android.stockapp.ui.market.activity.StockDetailLandActivity;
+import com.github.mikephil.charting.module.OneDayData;
 import com.github.mikephil.charting.stockChart.OneDayChart;
 import com.github.mikephil.charting.stockChart.charts.CoupleChartGestureListener;
 import com.github.mikephil.charting.stockChart.dataManage.TimeDataManage;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -31,18 +31,27 @@ public class ChartOneDayFragment extends BaseFragment {
     @BindView(R.id.chart)
     OneDayChart chart;
     Unbinder unbinder;
+    String stockCode;
+    String stockName;
 
     private boolean land;//是否横屏
     private TimeDataManage kTimeData = new TimeDataManage();
     private JSONObject object;
 
-    public static ChartOneDayFragment newInstance(boolean land) {
-        ChartOneDayFragment fragment = new ChartOneDayFragment();
+    public ChartOneDayFragment() {
+    }
+
+    public ChartOneDayFragment(String stockCode, String stockName) {
+        this.stockCode = stockCode;
+        this.stockName = stockName;
+    }
+
+    public static ChartOneDayFragment newInstance(boolean land, String stockCode, String stockName) {
+        ChartOneDayFragment fragment = new ChartOneDayFragment(stockCode, stockName);
         Bundle bundle = new Bundle();
         bundle.putBoolean("landscape", land);
         fragment.setArguments(bundle);
         return fragment;
-
     }
 
     @Override
@@ -51,18 +60,13 @@ public class ChartOneDayFragment extends BaseFragment {
     }
 
     @Override
-    public void initBase(View view) {
+    public void initBase(View view, String stockCode, String stockName) {
         //初始化
         chart.initChart(land);
-        //测试数据
-        try {
-            object = new JSONObject(ChartData.TIMEDATA);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         //上证指数代码000001.IDX.SH
-        kTimeData.parseTimeData(object, "000001.IDX.SH", 0);
+        OneDayData oneDayData = HttpRequestUtils.getStockOneDayData("000001.sz");
+        kTimeData.parseTimeDataByObj(oneDayData, "000001.sz", 0);
         chart.setDataToChart(kTimeData);
 
         //非横屏页单击转横屏页

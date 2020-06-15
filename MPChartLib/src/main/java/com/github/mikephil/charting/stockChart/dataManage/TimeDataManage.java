@@ -2,6 +2,7 @@ package com.github.mikephil.charting.stockChart.dataManage;
 
 import android.util.SparseArray;
 
+import com.github.mikephil.charting.module.OneDayData;
 import com.github.mikephil.charting.stockChart.model.TimeDataModel;
 
 import org.json.JSONArray;
@@ -52,6 +53,66 @@ public class TimeDataManage {
                     timeDatamodel.setAveragePrice(Double.isNaN(data.optJSONArray(i).optDouble(2)) ? 0 : data.optJSONArray(i).optDouble(2));
                     timeDatamodel.setVolume(Double.valueOf(data.optJSONArray(i).optString(3)).intValue());
                     timeDatamodel.setOpen(Double.isNaN(data.optJSONArray(i).optDouble(4)) ? 0 : data.optJSONArray(i).optDouble(4));
+                    timeDatamodel.setPreClose(preClose == 0 ? (preClosePrice == 0 ? timeDatamodel.getOpen() : preClosePrice) : preClose);
+
+                    if (i == 0) {
+                        preClose = timeDatamodel.getPreClose();
+                        mAllVolume = timeDatamodel.getVolume();
+                        max = timeDatamodel.getNowPrice();
+                        min = timeDatamodel.getNowPrice();
+                        volMaxTimeLine = 0;
+                        if (baseValue == 0) {
+                            baseValue = timeDatamodel.getPreClose();
+                        }
+                        if (fiveDayXLabelKey.size() > index) {
+                            fiveDayXLabels.put(fiveDayXLabelKey.get(index), secToDateForFiveDay(timeDatamodel.getTimeMills()));
+                            index++;
+                        }
+                    } else {
+                        mAllVolume += timeDatamodel.getVolume();
+                        if (fiveDayXLabelKey.size() > index && !secToDateForFiveDay(timeDatamodel.getTimeMills()).equals(preDate)) {
+                            fiveDayXLabels.put(fiveDayXLabelKey.get(index), secToDateForFiveDay(timeDatamodel.getTimeMills()));
+                            index++;
+                        }
+                    }
+                    preDate = secToDateForFiveDay(timeDatamodel.getTimeMills());
+                    timeDatamodel.setCha(timeDatamodel.getNowPrice() - preClose);
+                    timeDatamodel.setPer(timeDatamodel.getCha() / preClose);
+
+                    max = Math.max(timeDatamodel.getNowPrice(), max);
+                    min = Math.min(timeDatamodel.getNowPrice(), min);
+
+                    perVolMaxTimeLine = volMaxTimeLine;
+                    volMaxTimeLine = Math.max(timeDatamodel.getVolume(), volMaxTimeLine);
+                    realTimeDatas.add(timeDatamodel);
+                }
+                permaxmin = (max - min) / 2;
+            }
+        }
+    }
+
+    /**
+     * 外部传JSONObject解析获得分时数据集
+     */
+    public void parseTimeDataByObj(OneDayData oneDayData, String assetId, double preClosePrice) {
+        this.assetId = assetId;
+        List<OneDayData.MinuteData> minuteDatas = oneDayData.getMinute();
+        if (minuteDatas != null) {
+            realTimeDatas.clear();
+            fiveDayXLabels.clear();
+            getFiveDayXLabelKey(assetId);
+            String preDate = null;
+            int index = 0;
+            preClose = 0;
+            if (minuteDatas != null) {
+                for (int i = 0; i < minuteDatas.size(); i++) {
+                    TimeDataModel timeDatamodel = new TimeDataModel();
+                    OneDayData.MinuteData minuteData = minuteDatas.get(i);
+                    timeDatamodel.setTimeMills(Long.parseLong("" + minuteData.getTime()));
+                    timeDatamodel.setNowPrice(Double.isNaN(minuteData.getPrice()) ? 0 : minuteData.getPrice());
+                    timeDatamodel.setAveragePrice(Double.isNaN(minuteData.getAvprice()) ? 0 : minuteData.getAvprice());
+                    timeDatamodel.setVolume(minuteData.getVol());
+                    timeDatamodel.setOpen(Double.isNaN(minuteData.getOpen()) ? 0 : minuteData.getOpen());
                     timeDatamodel.setPreClose(preClose == 0 ? (preClosePrice == 0 ? timeDatamodel.getOpen() : preClosePrice) : preClose);
 
                     if (i == 0) {

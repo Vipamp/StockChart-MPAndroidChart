@@ -2,7 +2,9 @@ package com.android.stockapp.ui.market.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,8 @@ public class ChartKLineFragment extends BaseFragment {
     @BindView(R.id.combinedchart)
     KLineChart combinedchart;
     Unbinder unbinder;
+    String stockCode;
+    String stockName;
 
     private int mType;//日K：1；周K：7；月K：30
     private boolean land;//是否横屏
@@ -38,11 +42,17 @@ public class ChartKLineFragment extends BaseFragment {
     private JSONObject object;
     private int indexType = 1;
 
-    public static ChartKLineFragment newInstance(int type,boolean land){
-        ChartKLineFragment fragment = new ChartKLineFragment();
+    public ChartKLineFragment(String stockCode, String stockName) {
+        super();
+        this.stockCode = stockCode;
+        this.stockName = stockName;
+    }
+
+    public static ChartKLineFragment newInstance(int type, boolean land, String stockCode, String stockName) {
+        ChartKLineFragment fragment = new ChartKLineFragment(stockCode, stockName);
         Bundle bundle = new Bundle();
         bundle.putInt("type", type);
-        bundle.putBoolean("landscape",land);
+        bundle.putBoolean("landscape", land);
         fragment.setArguments(bundle);
         return fragment;
 
@@ -54,28 +64,28 @@ public class ChartKLineFragment extends BaseFragment {
     }
 
     @Override
-    protected void initBase(View view) {
+    protected void initBase(View view, String stockCode, String stockName) {
         kLineData = new KLineDataManage(getActivity());
         combinedchart.initChart(land);
         try {
-            if(mType == 1){
+            if (mType == 1) {
                 object = new JSONObject(ChartData.KLINEDATA);
-            }else if(mType == 7){
+            } else if (mType == 7) {
                 object = new JSONObject(ChartData.KLINEWEEKDATA);
-            }else if(mType == 30){
+            } else if (mType == 30) {
                 object = new JSONObject(ChartData.KLINEMONTHDATA);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //上证指数代码000001.IDX.SH
-        kLineData.parseKlineData(object,"000001.IDX.SH",land);
+        kLineData.parseKlineData(object, "000001.IDX.SH", land);
         combinedchart.setDataToChart(kLineData);
 
         combinedchart.getGestureListenerCandle().setCoupleClick(new CoupleChartGestureListener.CoupleClick() {
             @Override
             public void singleClickListener() {
-                if(!land) {
+                if (!land) {
                     Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
                     getActivity().startActivity(intent);
                 }
@@ -85,9 +95,9 @@ public class ChartKLineFragment extends BaseFragment {
         combinedchart.getGestureListenerBar().setCoupleClick(new CoupleChartGestureListener.CoupleClick() {
             @Override
             public void singleClickListener() {
-                if(land) {
+                if (land) {
                     loadIndexData(indexType < 5 ? ++indexType : 1);
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), StockDetailLandActivity.class);
                     getActivity().startActivity(intent);
                 }

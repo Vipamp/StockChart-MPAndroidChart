@@ -1,7 +1,9 @@
 package com.android.stockapp.ui.market.activity;
 
 import android.os.Bundle;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,9 +33,11 @@ public class StockDetailLandActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_detail_land);
         ButterKnife.bind(this);
 
-        Fragment[] fragments = {ChartOneDayFragment.newInstance(true), ChartFiveDayFragment.newInstance(true),
-                ChartKLineFragment.newInstance(1,true), ChartKLineFragment.newInstance(7,true),
-                ChartKLineFragment.newInstance(30,true)};
+        Fragment[] fragments = {ChartOneDayFragment.newInstance(true, "1", "1"),
+                ChartFiveDayFragment.newInstance(true, "", ""),
+                ChartKLineFragment.newInstance(1, true, "", ""),
+                ChartKLineFragment.newInstance(7, true, "", ""),
+                ChartKLineFragment.newInstance(30, true, "", "")};
         String[] titles = {"分时", "五日", "日K", "周K", "月K"};
         viewPager.setOffscreenPageLimit(fragments.length);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles));

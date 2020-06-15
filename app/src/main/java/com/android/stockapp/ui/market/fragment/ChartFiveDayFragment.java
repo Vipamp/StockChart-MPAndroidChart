@@ -2,7 +2,9 @@ package com.android.stockapp.ui.market.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +32,20 @@ public class ChartFiveDayFragment extends BaseFragment {
     @BindView(R.id.chart)
     FiveDayChart chart;
     Unbinder unbinder;
+    String stockCode;
+    String stockName;
 
     private boolean land;//是否横屏
     private TimeDataManage kTimeData = new TimeDataManage();
     private JSONObject object;
 
-    public static ChartFiveDayFragment newInstance(boolean land) {
-        ChartFiveDayFragment fragment = new ChartFiveDayFragment();
+    public ChartFiveDayFragment(String stockCode, String stockName) {
+        this.stockCode = stockCode;
+        this.stockName = stockName;
+    }
+
+    public static ChartFiveDayFragment newInstance(boolean land, String stockCode, String stockName) {
+        ChartFiveDayFragment fragment = new ChartFiveDayFragment(stockCode, stockName);
         Bundle bundle = new Bundle();
         bundle.putBoolean("landscape", land);
         fragment.setArguments(bundle);
@@ -50,7 +59,7 @@ public class ChartFiveDayFragment extends BaseFragment {
     }
 
     @Override
-    public void initBase(View view) {
+    public void initBase(View view, String stockCode, String stockName) {
 
         chart.initChart(land);
 
@@ -62,7 +71,7 @@ public class ChartFiveDayFragment extends BaseFragment {
         }
 
         //上证指数代码000001.IDX.SH
-        kTimeData.parseTimeData(object,"000001.IDX.SH",0);
+        kTimeData.parseTimeData(object, "000001.IDX.SH", 0);
         chart.setDataToChart(kTimeData);
 
         //非横屏页单击转横屏页
