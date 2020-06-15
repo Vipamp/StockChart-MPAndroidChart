@@ -1,11 +1,13 @@
 package com.android.stockapp.common.viewpager;
 
 import android.content.Context;
+
 import androidx.viewpager.widget.ViewPager;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class NoTouchScrollViewpager extends ViewPager{
+public class NoTouchScrollViewpager extends ViewPager {
     public NoTouchScrollViewpager(Context context) {
         this(context, null);
     }

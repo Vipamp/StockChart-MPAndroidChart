@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.android.stockapp.ui.main.MainActivity">
 
 
@@ -14,11 +14,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/test1" />
-
-    <Button
-        android:id="@+id/btn_mp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/test2" />
 
 </LinearLayout>

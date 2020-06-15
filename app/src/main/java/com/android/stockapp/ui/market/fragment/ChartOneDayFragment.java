@@ -2,18 +2,19 @@ package com.android.stockapp.ui.market.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.android.stockapp.R;
 import com.android.stockapp.common.data.ChartData;
 import com.android.stockapp.ui.base.BaseFragment;
 import com.android.stockapp.ui.market.activity.StockDetailLandActivity;
+import com.github.mikephil.charting.stockChart.OneDayChart;
 import com.github.mikephil.charting.stockChart.charts.CoupleChartGestureListener;
 import com.github.mikephil.charting.stockChart.dataManage.TimeDataManage;
-import com.github.mikephil.charting.stockChart.OneDayChart;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,7 @@ public class ChartOneDayFragment extends BaseFragment {
         }
 
         //上证指数代码000001.IDX.SH
-        kTimeData.parseTimeData(object,"000001.IDX.SH",0);
+        kTimeData.parseTimeData(object, "000001.IDX.SH", 0);
         chart.setDataToChart(kTimeData);
 
         //非横屏页单击转横屏页
