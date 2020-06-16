@@ -37,7 +37,7 @@ public abstract class BaseFragment extends Fragment {
         view = inflater.inflate(setLayoutId(), container, false);
         ButterKnife.bind(this, view);
         try {
-            initBase(view,"","");
+            initBase(view);
         } catch (IOException e) {
 
         }
@@ -51,7 +51,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int setLayoutId();
 
-    protected abstract void initBase(View view, String stockCode, String stockName) throws IOException;
+    protected abstract void initBase(View view) throws IOException;
 
     @Override
     public void onAttach(Context context) {

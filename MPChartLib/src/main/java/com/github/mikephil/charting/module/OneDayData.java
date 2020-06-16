@@ -114,6 +114,22 @@ public class OneDayData {
         public void setVol(int vol) {
             this.vol = vol;
         }
+
+        @Override
+        public String toString() {
+            return "MinuteData{" +
+                    "amount=" + amount +
+                    ", avprice=" + avprice +
+                    ", high=" + high +
+                    ", increase=" + increase +
+                    ", low=" + low +
+                    ", open=" + open +
+                    ", price=" + price +
+                    ", risefall=" + risefall +
+                    ", time=" + time +
+                    ", vol=" + vol +
+                    '}';
+        }
     }
 
     public String getSymbol() {
@@ -202,5 +218,22 @@ public class OneDayData {
 
     public List<MinuteData> getMinute() {
         return this.minute;
+    }
+
+    @Override
+    public String toString() {
+        return "OneDayData{" +
+                "symbol='" + symbol + '\'' +
+                ", name='" + name + '\'' +
+                ", date='" + date + '\'' +
+                ", amount=" + amount +
+                ", open=" + open +
+                ", price=" + price +
+                ", high=" + high +
+                ", low=" + low +
+                ", vol=" + vol +
+                ", yclose=" + yclose +
+                ", minute=" + minute +
+                '}';
     }
 }

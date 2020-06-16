@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class StockOneDayRequest extends AsyncTask<String, Void, String> {
+public class StockRTQuotationRequest extends AsyncTask<String, Void, String> {
 
     static OkHttpClient client = new OkHttpClient().newBuilder().build();
     static StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -37,7 +37,7 @@ public class StockOneDayRequest extends AsyncTask<String, Void, String> {
         String stockCode = strings[0];
         try {
             MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8,text/plain");
-            RequestBody body = RequestBody.create(mediaType, "field%5B%5D=name&field%5B%5D=symbol&field%5B%5D=yclose&field%5B%5D=open&field%5B%5D=price&field%5B%5D=high&field%5B%5D=low&field%5B%5D=vol&field%5B%5D=amount&field%5B%5D=date&field%5B%5D=time&field%5B%5D=minute&field%5B%5D=minutecount&symbol%5B%5D=" + strings[0] + "&start=-1");
+            RequestBody body = RequestBody.create(mediaType, "field%5B%5D=name&field%5B%5D=symbol&field%5B%5D=yclose&field%5B%5D=open&field%5B%5D=price&field%5B%5D=high&field%5B%5D=low&field%5B%5D=vol&field%5B%5D=amount&field%5B%5D=date&field%5B%5D=time&field%5B%5D=week&field%5B%5D=increase&field%5B%5D=buy&field%5B%5D=sell&field%5B%5D=exchangerate&field%5B%5D=amplitude&symbol%5B%5D=" + stockCode);
             Request request = build.method("POST", body).build();
             Response response = client.newCall(request).execute();
             byte[] bytes = response.body().bytes();

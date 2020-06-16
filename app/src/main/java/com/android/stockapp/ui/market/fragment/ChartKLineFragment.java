@@ -64,7 +64,7 @@ public class ChartKLineFragment extends BaseFragment {
     }
 
     @Override
-    protected void initBase(View view, String stockCode, String stockName) {
+    protected void initBase(View view) {
         kLineData = new KLineDataManage(getActivity());
         combinedchart.initChart(land);
         try {

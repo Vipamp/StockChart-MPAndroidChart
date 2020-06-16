@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/windowBackground"
+    android:orientation="vertical"
     tools:context=".ui.market.activity.StockDetailActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,17 +17,67 @@
         app:theme="@style/ToolBarStyle">
 
     </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <!--        <GridView-->
+        <!--            android:id="@+id/leftPanel"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="80dp"-->
+        <!--            android:columnWidth="50dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:stretchMode="columnWidth"-->
+        <!--            android:numColumns="auto_fit"></GridView>-->
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:columnWidth="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/priceView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:textSize="40sp"></TextView>
+
+            <TextView
+                android:id="@+id/increView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="20sp"></TextView>
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/rightPanel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="10dp"
+            android:listSelector="#00000000"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"></GridView>
+    </LinearLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 
     <com.android.stockapp.common.viewpager.NoTouchScrollViewpager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:background="@color/white" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,5 +86,5 @@
         android:text="说明：\n1，支持缩放，滑动，长按出现高亮十字线。\n
 2，单击竖屏图表可进入横屏页面。\n
 3，K线副图可以单击切换不同指标。\n
-3，支持夜间模式。"/>
+3，支持夜间模式。" />
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.stockapp.R;
 import com.android.stockapp.common.utils.HttpRequestUtils;
@@ -60,13 +61,11 @@ public class ChartOneDayFragment extends BaseFragment {
     }
 
     @Override
-    public void initBase(View view, String stockCode, String stockName) {
+    public void initBase(View view) {
         //初始化
         chart.initChart(land);
-
-        //上证指数代码000001.IDX.SH
-        OneDayData oneDayData = HttpRequestUtils.getStockOneDayData("000001.sz");
-        kTimeData.parseTimeDataByObj(oneDayData, "000001.sz", 0);
+        OneDayData oneDayData = HttpRequestUtils.getStockOneDayData(stockCode);
+        kTimeData.parseTimeDataByObj(oneDayData, this.stockCode, 0);
         chart.setDataToChart(kTimeData);
 
         //非横屏页单击转横屏页

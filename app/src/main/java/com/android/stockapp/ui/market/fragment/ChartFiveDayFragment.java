@@ -59,7 +59,7 @@ public class ChartFiveDayFragment extends BaseFragment {
     }
 
     @Override
-    public void initBase(View view, String stockCode, String stockName) {
+    public void initBase(View view) {
 
         chart.initChart(land);
 
